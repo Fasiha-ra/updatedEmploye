@@ -1,0 +1,1 @@
+export const serverDomain = "https://evolvex.shellcode.cloud";
