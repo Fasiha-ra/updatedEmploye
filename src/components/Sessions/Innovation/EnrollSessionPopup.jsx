@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SessionPopup } from "./EnrollSessionPopup.styles";
+import { useLocation } from "react-router-dom";
 import TextField from "../../TextField/TextField";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,17 +9,19 @@ import Button from "../../Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { serverDomain } from "../../../constant/server-domain";
-
-const EnrollSessionPopup = ({ selectDate, startTime, endTime, corporateEmail, phone }) => {
+import { useAuth } from "../../../Context/AuthContext";
+const EnrollSessionPopup = ({ selectDate, startTime, endTime }) => {
   const navigate = useNavigate();
   const today = new Date();
-
+  const { user } = useAuth();
+  // const location = useLocation();
+  // const { corporateEmail, phone } = location.state || {};
   const [selectedDate, setSelectedDate] = useState(selectDate ? new Date(selectDate) : null);
   const [formData, setFormData] = useState({
     userId: "currentUser", // Replace with actual user ID if available
     sessionId: "1",
-    corporateEmail: corporateEmail || "",
-    phone: phone || "",
+    corporateEmail: user.email || "",
+    phone: user.phone || "",
     selectedTopic: "",
     date: selectDate ? selectDate : "",
     fromTime: startTime,
@@ -101,18 +104,21 @@ const EnrollSessionPopup = ({ selectDate, startTime, endTime, corporateEmail, ph
         <strong className="title">Select the session you wish to attend</strong>
       </div>
       <div className="flex">
-        <TextField
+        <label htmlFor="topic" className="dateLabel">
+          Topic
+          <select
           parentClass="emailWrapper"
-          className="input-field"
-          label="Topic"
-          field_Name="text"
-          type="text"
-          placeholder="Enter topic name"
-          name="selectedTopic"
-          value={formData.selectedTopic}
-          onChange={handleChange}
-          bgClr="rgba(255, 255, 255, 0.37)"
-        />
+            id="topic"
+            name="selectedTopic"
+            value={formData.selectedTopic}
+            onChange={handleChange}
+            className="dropdown"
+          >
+            <option value="">Select topic</option>
+            <option value="Drop1">Group Session</option>
+            <option value="Drop2">1:1 Session</option>
+          </select>
+        </label>
         <label htmlFor="" className="dateLabel">
           Date
           <div className="date-picker">

@@ -77,7 +77,7 @@ const DateTime = ({ setOpen, onSelectTime }) => {
   const toggleCalendar = () => {
     setShowCalendar(!showCalendar);
   };
-
+const today = new Date();
   return (
     <>
       <ModalsWrap>
@@ -98,6 +98,7 @@ const DateTime = ({ setOpen, onSelectTime }) => {
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               inline
+              minDate={today}
             />
           )}
         </div>

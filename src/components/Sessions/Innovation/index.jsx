@@ -28,7 +28,6 @@ const ChangeManagement = ({ BackToPage, sessionDetails }) => {
     setDateTime(true);
   };
   const handleTimeSelect = (date, startTime, EndTime) => {
-   
     setSelectedDate(date);
     setSelectedStartTime(startTime);
     setSelectedEndTime(EndTime);
@@ -157,6 +156,11 @@ const ChangeManagement = ({ BackToPage, sessionDetails }) => {
             selectedDate={selectedDate}
             selectedTime={selectedStartTime}
             selectedEndTime={selectedEndTime}
+            name={
+              sessionDetails?.coach?.firstName +
+              " " +
+              sessionDetails?.coach?.lastName
+            }
           />
         </Modal>
       )}

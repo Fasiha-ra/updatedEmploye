@@ -35,7 +35,6 @@ const EnrollNow = () => {
     navigate("/dashboard");
   };
   const handleTimeSelect = (date, startTime, EndTime) => {
-   
     setSelectedDate(date);
     setSelectedStartTime(startTime);
     setSelectedEndTime(EndTime);
@@ -160,6 +159,11 @@ const EnrollNow = () => {
             selectedDate={selectedDate}
             selectedTime={selectedStartTime}
             selectedEndTime={selectedEndTime}
+            name={
+              oneVOneSessions?.coach.firstName +
+              " " +
+              oneVOneSessions?.coach.lastName
+            }
           />
         </Modal>
       )}

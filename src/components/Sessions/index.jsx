@@ -10,7 +10,6 @@ import Innovation from "./Innovation";
 import ScheduleMeeting from "./Innovation/ScheduleMeeting";
 import axios from "axios";
 import { serverDomain } from "../../constant/server-domain";
-
 const Sessions = () => {
   const [enrollOpen, setEnrollOpen] = useState(false);
   const [sessionOpen, setSessionOpen] = useState(false);

@@ -29,7 +29,7 @@ const CalendarHeader = () => {
       setToggleDropdownType(false); 
     }
   };
-
+const today = new Date();
   return (
     <HeaderWrapper $toggleDropDown={toggleDropdownType || toggleDropdownTopic}>
       <div className="searchbar">
@@ -46,6 +46,7 @@ const CalendarHeader = () => {
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               inline
+              minDate={today}
             />
           )}
         </div>

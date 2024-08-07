@@ -5,12 +5,12 @@ import calendar from "../../../assets/sessions/calendar.png";
 import time from "../../../assets/sessions/time.png";
 import Button from "../../Button";
 import { useNavigate } from "react-router-dom";
-const Scheduled = ({ setOpen, selectedDate, selectedTime,selectedEndTime, user }) => {
+const Scheduled = ({name, setOpen, selectedDate, selectedTime,selectedEndTime, user }) => {
     const navigate = useNavigate();
-
+console.log(name);
   const handleDone = () => {
     
-    navigate("/calendar", { state: { selectedDate, selectedTime, selectedEndTime } }); 
+    navigate("/calendar", { state: { name, selectedDate, selectedTime, selectedEndTime } }); 
   };
   return (
     <ModalsWrap>

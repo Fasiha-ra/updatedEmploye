@@ -5,13 +5,13 @@ import person from "../../../assets/calendar/person.png";
 import { FaPencilAlt } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 
-const Title = () => {
+const Title = ({user}) => {
   return (
     <TitleWrap>
       <span>Change Management: Leading Agile Systems Change...</span>
       <span>
         <img src={people} alt="people" />
-        20 Employees Enrolled
+        {user}
       </span>
       <span>
         <FaPencilAlt />

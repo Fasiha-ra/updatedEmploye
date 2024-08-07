@@ -5,22 +5,23 @@ import moment from "moment";
 import Title, { ManageTitle } from "../Title";
 const localizer = momentLocalizer(moment);
 
-const CustomEvent = ({ event }) => {
-  console.log("CustomEvent rendering:", event);
-  if (event.title === "Title") {
-    return <Title />;
-  } else if (event.title === "ManageTitle") {
-    return <ManageTitle />;
-  } else {
-    return <span>{event.title}</span>;
-  }
-};
 
-const TimeSlots = ({ click, selectedDate, selectedTime, selectedEndTime, user }) => {
+
+const TimeSlots = ({ name ,click, selectedDate, selectedTime, selectedEndTime, user }) => {
+  const CustomEvent = ({ event }) => {
+    console.log("CustomEvent rendering:", event);
+    if (event.title === "Title") {
+      return <Title user={name}/>;
+    } else if (event.title === "ManageTitle") {
+      return <ManageTitle />;
+    } else {
+      return <span>{event.title}</span>;
+    }
+  };
   const today = new Date();
   console.log("Start calendar time:", selectedTime);
   console.log("End calendar time:", selectedEndTime);
-
+console.log("user name here :" , name);
   // Parse the selectedTime and selectedEndTime strings
   const parsedSelectedTime = moment(selectedTime, "h:mm a");
   const parsedSelectedEndTime = moment(selectedEndTime, "h:mm a");

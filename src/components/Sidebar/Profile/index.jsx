@@ -53,7 +53,7 @@ const Profile = () => {
         <div className="session">
           <div className="iconHolder">
             <img src={Icon} alt="icon" />
-            <span>Enrolled Sessions</span>
+            <span>Completed Sessions</span>
           </div>
 
           <span className="count">00</span>

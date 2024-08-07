@@ -106,4 +106,15 @@ export const SessionPopup = styled.div`
     display: flex;
     justify-content: center;
   }
+  select{
+    padding: 14px 25px 12px;
+    border-radius: 10px;
+    width: 100%;
+    outline: none;
+    box-sizing: border-box;
+    border: 1px solid;
+    box-shadow: rgba(0, 0, 0, 0.09) 0 0 2px 1px;
+    position: relative;
+
+  }
 `;
