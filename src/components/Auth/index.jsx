@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SignUpWrapper } from "./SignUp.styles";
 import Logo from "../../assets/authentication/Logo.png";
 import bgImg from "../../assets/authentication/bg-img.png";
@@ -8,29 +8,57 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { serverDomain } from "../../constant/server-domain";
 import { useAuth } from "../../Context/AuthContext";
+
 const SignUp = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
   const { setCurrentUser } = useAuth();
+
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem('isAuthenticated');
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
+
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Clear previous error messages
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
 
     try {
       const response = await axios.get(`${serverDomain}/user?email=${email}&companyId=1`);
       console.log("res email", response);
-      if (response.data.status === true) {
-        navigate("/dashboard");
-      }
 
-      setCurrentUser(response.data?.id);
-      console.log("Email:", email);
+      if (response.data.status === true) {
+        // User already exists, redirect to dashboard
+        localStorage.setItem('isAuthenticated', 'true'); // Assuming authentication is successful
+        setCurrentUser(response.data?.id);
+        navigate("/dashboard");
+      } else {
+        // User not found, proceed with sign-up
+        navigate("/signUp", { state: { email } });
+      }
+      
     } catch (e) {
+      setError("An error occurred. Please try again.");
       console.log("Error:", e);
-      navigate("/signUp", { state: { email } });
     }
   };
+
   const handleInputChange = (e) => {
     setEmail(e.target.value);
+    setError(""); // Clear error message when user types
   };
 
   return (
@@ -40,14 +68,13 @@ const SignUp = () => {
           <img src={bgImg} alt="" />
         </div>
         <div className="formHolder">
-          <form action="">
+          <form onSubmit={handleSubmit}>
             <div className="textHolder">
-              <Link href="/">
+              <Link to="/">
                 <img src={Logo} alt="logo" />
               </Link>
               <p>
-                Welcome to our Evolve - X platform !<br /> Enhance your skills
-                and broaden your knowledge.
+                Welcome to our Evolve - X platform!<br /> Enhance your skills and broaden your knowledge.
               </p>
             </div>
             <div className="inputHolder">
@@ -62,7 +89,8 @@ const SignUp = () => {
                 bgClr="rgba(255, 255, 255, 0.37)"
               />
             </div>
-            <Button width="208px" onClick={handleSubmit}>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <Button width="208px" type="submit">
               Continue
             </Button>
           </form>

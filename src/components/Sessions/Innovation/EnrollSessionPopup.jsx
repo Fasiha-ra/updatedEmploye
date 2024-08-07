@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SessionPopup } from "./EnrollSessionPopup.styles";
 import TextField from "../../TextField/TextField";
 import DatePicker from "react-datepicker";
@@ -8,25 +8,30 @@ import Button from "../../Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { serverDomain } from "../../../constant/server-domain";
-import { useAuth } from "../../../Context/AuthContext";
 
-const EnrollSessionPopup = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const {currentUser} = useAuth()
+const EnrollSessionPopup = ({ selectDate, startTime, endTime, corporateEmail, phone }) => {
+  const navigate = useNavigate();
+  const today = new Date();
+
+  const [selectedDate, setSelectedDate] = useState(selectDate ? new Date(selectDate) : null);
   const [formData, setFormData] = useState({
-    userId: currentUser,
+    userId: "currentUser", // Replace with actual user ID if available
     sessionId: "1",
-    corporateEmail: "contact@alhn.dev",
-    phone: "9399369854",
+    corporateEmail: corporateEmail || "",
+    phone: phone || "",
     selectedTopic: "",
-    date: "",
-    fromTime: "09:30",
-    endTime: "21:30",
+    date: selectDate ? selectDate : "",
+    fromTime: startTime,
+    endTime: endTime,
     note: ""
   });
- 
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (selectDate) {
+      setSelectedDate(new Date(selectDate));
+      setFormData((prev) => ({ ...prev, date: selectDate }));
+    }
+  }, [selectDate]);
 
   const clickHandler = async () => {
     console.log('formData:', formData);
@@ -57,7 +62,7 @@ const EnrollSessionPopup = () => {
     <SessionPopup>
       <div className="textWrap">
         <div className="titleHolder">
-          <strong className="tite">Enroll for session</strong>
+          <strong className="title">Enroll for session</strong>
         </div>
         <p>
           We appreciate your interest in our upcoming session and would like to
@@ -66,7 +71,7 @@ const EnrollSessionPopup = () => {
         </p>
       </div>
       <div className="titleHolder">
-        <strong className="tite">Personal Information</strong>
+        <strong className="title">Personal Information</strong>
       </div>
       <div className="flex">
         <TextField
@@ -93,7 +98,7 @@ const EnrollSessionPopup = () => {
         />
       </div>
       <div className="titleHolder">
-        <strong className="tite">Select the session you wish to attend</strong>
+        <strong className="title">Select the session you wish to attend</strong>
       </div>
       <div className="flex">
         <TextField
@@ -116,6 +121,7 @@ const EnrollSessionPopup = () => {
               onChange={handleDateChange}
               dateFormat="dd/MM/yyyy"
               placeholderText="Select date"
+              minDate={today}
             />
           </div>
         </label>

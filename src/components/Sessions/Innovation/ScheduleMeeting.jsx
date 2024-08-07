@@ -100,8 +100,8 @@ const ScheduleMeeting = ({ newSession }) => {
         </div>
       </div>
       {setIsModalOpen && (
-        <Modal open={isModalOpen} setOpen={setIsModalOpen} width="961px">
-          <EnrollSessionPopup />
+        <Modal  open={isModalOpen} setOpen={setIsModalOpen} width="961px">
+          <EnrollSessionPopup selectDate={session?.startDate} startTime={session?.startTime} endTime= {session?.endTime}/>
         </Modal>
       )}
     </InnovationWrap>
